@@ -7,7 +7,7 @@
  <style>
    body {padding: 0; margin: 0; }
    html, body { height: 100%; width: 100%;}
-   #kaardikiht {float:bottom; width:100%; height:100%;}
+   #kaardikiht {float:bottom; width:100%; height:80%;}
  </style>
  <script>
    var kaart;
@@ -25,20 +25,22 @@
    function vajutus(e){
 	     hypik.setLatLng(e.latlng).
 		 setContent("Vajutasid "+e.latlng.toString()).openOn(kaart);
-	     let lisand="laiuskraad="+e.latlng.lat+"&pikkuskraad="+e.latlng.lng+"&tyyp="+tyybivalik.value;
+	     let lisand="laiuskraad="+e.latlng.lat+"&pikkuskraad="+e.latlng.lng+"&tyyp="+tyybivalik.value+"&kommentaar="+encodeURI(kast1.value);
 	     console.log(lisand);
-	     fetch("https://script.google.com/macros/s/AKfycbw5_Ds2LEWi8_JBzBJPWXP7STICN7KeMiZlk7YO08Qwhk34Ffgdsa4A3EMpXOm4lLLJ/exec?"+lisand)
+	     fetch("https://script.google.com/macros/s/AKfycbwFCM4sZs79T28WvDe8K8UOInPQly2cQwbaPAF9XmHf7nvnNqg4NJULCtmxBHk8is-HzA/exec?"+lisand)
+	   //https://script.google.com/macros/s/AKfycbw5_Ds2LEWi8_JBzBJPWXP7STICN7KeMiZlk7YO08Qwhk34Ffgdsa4A3EMpXOm4lLLJ/exec?laiuskraad=58.5&pikkuskraad=22.1&tyyp=katlamaja&kommentaar=punane
    }
 
   </script>
  </head>  
  <body onload="algus()">
- <div>
+  <div>
 	  <select id="tyybivalik">
 		  <option>kool</option>
 		  <option>kirik</option>
 		  <option>kauplus</option>
 	  </select>
+	  <input type="text" id="kast1" />
   </div>
   <div id="kaardikiht"></div>
  </body>
