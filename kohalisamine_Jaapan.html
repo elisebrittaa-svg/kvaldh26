@@ -125,10 +125,21 @@ function kuvaJaapaniKohad(){
   ).addTo(grupp);
 }
 
+   hypik=L.popup(); 
+	kaart.on("click", vajutus);
+   }
    function vajutus(e){
 	     hypik.setLatLng(e.latlng).
 		 setContent("Vajutasid "+e.latlng.toString()).openOn(kaart);
+	     let lisand="laiuskraad="+e.latlng.lat+"&pikkuskraad="+e.latlng.lng+"&tyyp="+tyybivalik.value+"&kommentaar="+encodeURI(kast1.value);
+	     console.log(lisand);
+	     fetch("https://script.google.com/macros/s/AKfycbyaWzLSUmZrCbDJ7aDLgZP5Q6FaRDtOKNuT58l-bj1k5uMOEJpFDdo9Dx4BjaM0oQJFTQ/exec?"+lisand
+			    ).then(d => d.json()).then(kuva);
    }
+
+	function kuva(andmed){
+		console.log(andmed);
+	}
 
   </script>
  </head>  
