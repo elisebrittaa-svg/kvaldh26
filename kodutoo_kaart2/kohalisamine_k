@@ -27,21 +27,17 @@
 		 setContent("Vajutasid "+e.latlng.toString()).openOn(kaart);
 	     let lisand="laiuskraad="+e.latlng.lat+"&pikkuskraad="+e.latlng.lng+"&tyyp="+tyybivalik.value+"&kommentaar="+encodeURI(kast1.value);
 	     console.log(lisand);
-	     fetch("https://script.google.com/macros/s/AKfycbyaWzLSUmZrCbDJ7aDLgZP5Q6FaRDtOKNuT58l-bj1k5uMOEJpFDdo9Dx4BjaM0oQJFTQ/exec?"+lisand
-			    ).then(d => d.json()).then(kuva);
+	     fetch("https://script.google.com/macros/s/AKfycbwFCM4sZs79T28WvDe8K8UOInPQly2cQwbaPAF9XmHf7nvnNqg4NJULCtmxBHk8is-HzA/exec?"+lisand)
+	   //https://script.google.com/macros/s/AKfycbyaWzLSUmZrCbDJ7aDLgZP5Q6FaRDtOKNuT58l-bj1k5uMOEJpFDdo9Dx4BjaM0oQJFTQ/exec?laiuskraad=58.5&pikkuskraad=22.1&tyyp=katlamaja&kommentaar=punane
    }
-
-	function kuva(andmed){
-		console.log(andmed);
-	}
 
   </script>
  </head>  
  <body onload="algus()">
   <div>
 	  <select id="tyybivalik">
-		  <option>Jaapani_kohvikud</option>
-		  <option>Jaapani_restoranid</option>
+		  <option>Jaapani_kohvik</option>
+		  <option>Jaapani_restoran</option>
 		  <option>Jaapani_kultuur</option>
 	  </select>
 	  <input type="text" id="kast1" />
