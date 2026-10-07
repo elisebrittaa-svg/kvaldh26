@@ -7,41 +7,103 @@
  <style>
    body {padding: 0; margin: 0; }
    html, body { height: 100%; width: 100%;}
-   #kaardikiht {float:bottom; width:100%; height:80%;}
+   #kaardikiht {float:bottom; width:100%; height:100%;}
  </style>
  <script>
-   var kaart;
-   var hypik;
+   let kaart;
+   let hypik;
+   let marker1, marker2;
+   let grupp;
+   let kohad;
    function algus(){
     kaart = L.map('kaardikiht').setView([59.439, 24.773], 12);
       new L.TileLayer(  'https://tiles.maaamet.ee/tm/tms/1.0.0/hybriid@GMC/{z}/{x}/{y}.png&ASUTUS=TLU&ERIALA=DIGIHUMANITAARIA', {
 	  attribution: "Map: <a  href='http://www.maaamet.ee/'>Maa-amet</a>",
 	  tms: true,
     }).addTo(kaart);
+    marker1=L.marker([59.439, 24.773], {draggable: true});
+    marker2=L.marker([59.439, 24.773], {draggable: true});
+	grupp=L.layerGroup();
+ grupp.addTo(kaart);
 
+function kuvaJaapaniKohad(){
+
+  fetch(
+    "https://script.google.com/macros/s/AKfycbyYqmaReaRMCz99x9GzlHVZTPz2I8KFSVIiG3GNxE5JZXnYLqXzHrbp7rqji7-DvT42sQ/exec?lugemine=jah"
+  )
+  .then(d => d.json())
+  .then(andmed => {
+    for(let koht of andmed){
+      let marker=L.marker([
+        koht.laiuskraad,
+        koht.pikkuskraad
+      ]);
+      marker.bindPopup(
+        koht.kommentaar + "<br>" +
+        koht.tyyp
+      );
+      marker.addTo(kohad);
+    }
+  });
+}
+
+ kohad=L.layerGroup();
+ kohad.addTo(kaart);
+    marker1.addTo(kaart);
+    marker2.addTo(kaart);
+    marker1.on("dragend", liikumine);
+    marker2.on("dragend", liikumine);
    	hypik=L.popup(); 
 	kaart.on("click", vajutus);
+ kuvaJaapaniKohad();
    }
+   function liikumine(){
+	   selgitus.innerText=Math.round(marker1.getLatLng().distanceTo(marker2.getLatLng()))/1000+" km";
+	   grupp.clearLayers();
+     let koht1=marker1.getLatLng();
+     let koht2=marker2.getLatLng();
+	   L.polyline([koht1, koht2]).addTo(grupp);
+     let aadress="https://router.project-osrm.org/route/v1/cycling/"+koht1.lng+","+
+               koht1.lat+";"+koht2.lng+","+koht2.lat+"?overview=full&geometries=geojson"
+     console.log(aadress);
+     fetch(aadress).then(d => d.json()).then(kuvaTee)
+   }
+	function kuvaTee(andmed){
+  tee=andmed.routes[0];
+  console.log(
+    tee["duration"],
+    tee["distance"]
+  );
+  let kaugus =
+    Math.round(tee.distance) / 1000;
+  let aeg =
+    Math.round(tee.duration / 60);
+  selgitus.innerText =
+    "Rattaga: " +
+    kaugus +
+    " km | umbes " +
+    aeg +
+    " min";
+  L.geoJSON(
+    tee.geometry,
+    {
+      style: {
+        color: "red",
+        weight: 5
+      }
+    }
+  ).addTo(grupp);
+}
+
    function vajutus(e){
 	     hypik.setLatLng(e.latlng).
 		 setContent("Vajutasid "+e.latlng.toString()).openOn(kaart);
-	     let lisand="laiuskraad="+e.latlng.lat+"&pikkuskraad="+e.latlng.lng+"&tyyp="+tyybivalik.value+"&kommentaar="+encodeURI(kast1.value);
-	     console.log(lisand);
-	     fetch("https://script.google.com/macros/s/AKfycbx337Akc5D9Mgxduqi6LjnBqQ1bkMYt_V5gVvdTq_W1u1-PFXKVMXurrYsbwBKMRGhimw/exec?"+lisand)
-	   //https://script.google.com/macros/s/AKfycbx337Akc5D9Mgxduqi6LjnBqQ1bkMYt_V5gVvdTq_W1u1-PFXKVMXurrYsbwBKMRGhimw/exec?laiuskraad=58.5&pikkuskraad=22.1&tyyp=katlamaja&kommentaar=punane
    }
 
   </script>
  </head>  
  <body onload="algus()">
-  <div>
-	  <select id="tyybivalik">
-		  <option>Jaapan_kohvik</option>
-		  <option>Jaapan_restoran</option>
-		  <option>Jaapan_kultuur</option>
-	  </select>
-	  <input type="text" id="kast1" />
-  </div>
+  <div id="selgitus">selgituse koht</div>
   <div id="kaardikiht"></div>
  </body>
 </html>
