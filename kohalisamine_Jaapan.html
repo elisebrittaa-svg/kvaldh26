@@ -133,7 +133,7 @@ function kuvaJaapaniKohad(){
 		 setContent("Vajutasid "+e.latlng.toString()).openOn(kaart);
 	     let lisand="laiuskraad="+e.latlng.lat+"&pikkuskraad="+e.latlng.lng+"&tyyp="+tyybivalik.value+"&kommentaar="+encodeURI(kast1.value);
 	     console.log(lisand);
-	     fetch("https://script.google.com/macros/s/AKfycbyaWzLSUmZrCbDJ7aDLgZP5Q6FaRDtOKNuT58l-bj1k5uMOEJpFDdo9Dx4BjaM0oQJFTQ/exec?"+lisand
+	     fetch("https://script.google.com/macros/s/AKfycbyYqmaReaRMCz99x9GzlHVZTPz2I8KFSVIiG3GNxE5JZXnYLqXzHrbp7rqji7-DvT42sQ/exec?"+lisand
 			    ).then(d => d.json()).then(kuva);
    }
 
