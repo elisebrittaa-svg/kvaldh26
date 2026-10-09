@@ -53,7 +53,7 @@
      </script>
   </head>
   <body>
-    <select id="riik" onchange="kysi1()">
+    <select id="riik" onchange="kysi()">
       <option value="Q33">Soome</option>
       <option value="Q191">Eesti</option>
       <option value="Q884">Lõuna-Korea</option>
@@ -61,17 +61,16 @@
       <option value="Q34">Rootsi</option>
       <option value="Q408">Austraalia</option>
       </select>
-    <select id="amet” onchange="kysi2()">
-      <option value="Q177220">Laulja</option>
-      <option value="Q15253558">Aktivist</option>
-      <option value="Q2526255">Režišöör</option>
-      <option value="Q36180">Kirjanik</option>
-      <option value="Q10800557">Filmi näitleja</option>
-      <option value="Q2405480">Häälnäitleja</option>
+    <select id="amet” onchange="kysi()">
+      <option value="Q177220">laulja</option>
+      <option value="Q15253558">aktivist</option>
+      <option value="Q2526255">režišöör</option>
+      <option value="Q36180">kirjanik</option>
+      <option value="Q10800557">filminäitleja</option>
+      <option value="Q2405480">häälnäitleja</option>
       </select>
 
-     <input type="button" value="otsi" onclick="kysi1()" />
-     <input type="button" value="otsi" onclick="kysi2()" />
+     <input type="button" value="otsi" onclick="kysi()" />
  
      <ul id="vastus"></ul>
   </body>
