@@ -8,7 +8,7 @@
               WHERE
               {
                 ?item wdt:P27 wd:${riik.value}. 
-                ?item wdt:P106 wd:Q177220.
+                ?item wdt:P106 wd:${amet.value}.
               
                 SERVICE wikibase:label {
                   bd:serviceParam wikibase:language "[AUTO_LANGUAGE],mul,en".
@@ -25,8 +25,8 @@
              SELECT ?item ?itemLabel
               WHERE
               {
-                ?item wdt:P27 wd:Q191. 
-                ?item wdt:P106 wd:Q177220.
+                ?item wdt:P27 wd:${riik.value}. 
+                ?item wdt:P106 wd:${amet.value}.
               
                 SERVICE wikibase:label {
                   bd:serviceParam wikibase:language "[AUTO_LANGUAGE],mul,en".
@@ -53,7 +53,7 @@
      </script>
   </head>
   <body>
-    <select id="riik" onchange="kysi()">
+    <select id="riik" onchange="kysi1()">
       <option value="Q33">Soome</option>
       <option value="Q191">Eesti</option>
       <option value="Q884">Lõuna-Korea</option>
@@ -61,7 +61,17 @@
       <option value="Q34">Rootsi</option>
       <option value="Q408">Austraalia</option>
       </select>
-     <input type="button" value="otsi" onclick="kysi()" />
+    <select id="amet” onchange="kysi2()">
+      <option value="Q177220">Laulja</option>
+      <option value="Q15253558">Aktivist</option>
+      <option value="Q2526255">Režišöör</option>
+      <option value="Q36180">Kirjanik</option>
+      <option value="Q10800557">Filmi näitleja</option>
+      <option value="Q2405480">Häälnäitleja</option>
+      </select>
+
+     <input type="button" value="otsi" onclick="kysi1()" />
+     <input type="button" value="otsi" onclick="kysi2()" />
  
      <ul id="vastus"></ul>
   </body>
