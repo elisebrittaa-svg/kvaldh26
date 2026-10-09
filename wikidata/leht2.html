@@ -16,7 +16,8 @@
               }
               LIMIT 10
            `;
-           let aadress="https://query.wikidata.org/sparql?format=json&query="+encodeURI(lause);      
+           let aadress="https://query.wikidata.org/sparql?format=json&query="+encodeURI(lause);
+           vastus.innerHTML="ootan vastust";
            fetch(aadress).then(d => d.json()).then(kuva);
         }
 
@@ -61,6 +62,7 @@
       <option value="Q34">Rootsi</option>
       <option value="Q408">Austraalia</option>
       </select>
+    
     <select id="amet” onchange="kysi()">
       <option value="Q177220">laulja</option>
       <option value="Q15253558">aktivist</option>
