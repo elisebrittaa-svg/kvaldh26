@@ -7,6 +7,7 @@
            let lause=`SELECT ?autor ?autorLabel (COUNT(*) as ?kogus) {
                 ?isik wdt:P495 wd:${riik.value}.
                 ?isik wdt:P7937 wd:${formaat.value}.
+                ?isik wdt:P21 wd:${sugu.value}.
                 ?isik wdt:P50 ?autor.
                 SERVICE wikibase:label {
                   bd:serviceParam wikibase:language "et,en".
@@ -55,6 +56,12 @@
       <option value="Q5185279">luuletus</option>
       <option value="Q37707">haiku</option>
       <option value="Q185598">päevik</option>
+      </select>
+
+    <select id="sugu" onchange="kysi()">
+      <option value="Q6581097">mees</option>
+      <option value="Q6581072">naine</option>
+      <option value="Q5530970">binaarne</option>
       </select>
 
      <input type="button" value="otsi" onclick="kysi()" />
