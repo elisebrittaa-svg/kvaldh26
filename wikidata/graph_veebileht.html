@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Jaapani kirjanikud</title>
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+  <div id="graph" style="height: 90vh;"></div>
+
+  <script>
+    const query = `
+      SELECT ?novelist ?novelistLabel
+             ?influencedBy ?influencedByLabel
+      WHERE {
+        {
+          SELECT ?novelist WHERE {
+            ?novelist wdt:P27 wd:Q17;
+                      wdt:P106 wd:Q6625963;
+                      wikibase:sitelinks ?links.
+          }
+          ORDER BY DESC(?links)
+        }
+        ?novelist wdt:P737 ?influencedBy.
+        SERVICE wikibase:label {
+          bd:serviceParam wikibase:language "en,ja".
+        }
+      }
+      LIMIT 100
+    `;
+
+    fetch("https://query.wikidata.org/sparql?query="
+      + encodeURIComponent(query) + "&format=json")
+      .then(r => r.json())
+      .then(data => {
+        const nodes = new Map();
+        const edges = [];
+
+        data.results.bindings.forEach(row => {
+          const a = row.novelist.value;
+          const b = row.influencedBy.value;
+
+          nodes.set(a, {
+            id: a,
+            label: row.novelistLabel.value
+          });
+
+          nodes.set(b, {
+            id: b,
+            label: row.influencedByLabel.value
+          });
+
+          edges.push({ from: a, to: b, arrows: "to" });
+        });
+
+        new vis.Network(
+          document.getElementById("graph"),
+          {
+            nodes: [...nodes.values()],
+            edges: edges
+          },
+          {}
+        );
+      });
+  </script>
+</body>
+</html>
